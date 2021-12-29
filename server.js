@@ -8,6 +8,7 @@ const server = express();
 
 hbs.registerPartials(__dirname +'/views/partials/')
 
+server.use(express.static(__dirname+ '/views/')); 
 server.set('view engine','hbs');
 
 
@@ -22,17 +23,20 @@ server.use((request,response, next)=>{
 })
 
 server.use((request,response,next)=>{
-    response.render('maintainance.hbs');
+    response.render('main.hbs');
     next();
-
 })
 
-server.use(express.static(__dirname+ '/views/')); 
+
+// hbs.registerHelper('screamIt',(text)=>{
+//     return text.toUpperCase();
+// })
+
 
 server.get('/',(request,response)=>{
    response.render('main.hbs',{
-       pagetitle : "Main Page",
-       welcomemessage : "Hello welcome to main page",
+       pagetitle : "Home Page",
+       welcomemessage : "Hello welcome to home page",
        currentyear : new Date().getFullYear()
    })
 })
@@ -44,6 +48,18 @@ server.get('/about',(request,response)=>{
         currentyear : new Date().getFullYear()
     });
     
+})
+
+server.get('/bad',(request,response)=>{
+    response.send({
+        errorMessage : 'Unable to handle request'
+    });
+})
+
+server.get('/projects',(request,response)=>{
+    response.render('projects.hbs',{
+        message: 'Welcome to Projects Page'
+    })
 })
 
 
